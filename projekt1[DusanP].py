@@ -70,6 +70,7 @@ while 1 > vyber_textu or vyber_textu > 3:
     print(oddelovac)
 print(oddelovac)
 
+#pomocne premenne
 pocet_slov = {}
 prve_velke = 0
 prve_male = 0
