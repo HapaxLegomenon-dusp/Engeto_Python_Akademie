@@ -53,68 +53,70 @@ print()
 if uzivatel in users_database.keys():
     if str(users_database.get(uzivatel)) == heslo:
         print(medzery + 'Prihlasenie prebehlo uspesne.')
+
+        print()
+        print(oddelovac)
+        print()
+
+        print(f'{medzery}Mozeme analyzovat 1 z 3 textov.')
+        vyber_textu = int(input(f'{medzery}Vyber si jeden z nich (zadaj cislo 1-3): '))
+        print()
+        while 1 > vyber_textu or vyber_textu > 3:
+            vyber_textu = int(input(f'{medzery}Znova. Vyber si text (zadaj cislo 1-3): '))
+            print(oddelovac)
+        print(oddelovac)
+
+        # pomocne premenne
+        pocet_slov = {}
+        prve_velke = 0
+        prve_male = 0
+        vsetky_velke = 0
+        vsetky_male = 0
+        cisel = 0
+        freq_dlzok_slov = {}
+        tokenized_text = TEXTS[vyber_textu - 1].strip('.,!?;''').split()
+        sucet = 0
+
+        for slovo in tokenized_text:
+            pocet_slov[slovo.lower()] = pocet_slov.get(slovo.lower(), 0) + 1
+
+            if slovo[0].isupper() == True:
+                prve_velke += 1
+            elif slovo[0].islower() == True:
+                prve_male += 1
+            else:
+                cisel += 1
+
+            if slovo.isupper() == True:
+                vsetky_velke += 1
+            elif slovo.islower() == True:
+                vsetky_male += 1
+
+            if slovo.isdigit() == True:
+                sucet += int(slovo)
+
+            freq_dlzok_slov[len(slovo)] = freq_dlzok_slov.get(len(slovo), 0) + 1
+
+        print(f'{medzery}Pocet vsetkych slov v texte {vyber_textu} je: {len(tokenized_text)}')
+        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju velkym pismenom: {prve_velke}')
+        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju malym pismenom: {prve_male}')
+        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba velkymi pismenami: {vsetky_velke}')
+        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba malymi pismenami: {vsetky_male}')
+        print(f'{medzery}Pocet cisel v texte {vyber_textu} je: {cisel}')
+        print(oddelovac)
+
+        for dlzka_slova in range(min(freq_dlzok_slov), max(freq_dlzok_slov) + 1):
+            kolko = freq_dlzok_slov.get(dlzka_slova, 0)
+            if kolko > 0:
+                print((medzery) * 2, dlzka_slova, '*' * kolko, kolko)
+
+        print(oddelovac)
+
+        print(f'{medzery}Ked zratame vsetky cisla v texte {vyber_textu}, dostaneme cislo {sucet}')
+        print(oddelovac)
+
     else:
         print(medzery + 'Zadali ste nespravne heslo!')
 else:
     print(medzery + 'Neexistujuci pouzivatel!')
 
-print()
-print(oddelovac)
-print()
-
-print(f'{medzery}Mozeme analyzovat 1 z 3 textov.')
-vyber_textu = int(input(f'{medzery}Vyber si jeden z nich (zadaj cislo 1-3): '))
-print()
-while 1 > vyber_textu or vyber_textu > 3:
-    vyber_textu = int(input(f'{medzery}Znova. Vyber si text (zadaj cislo 1-3): '))
-    print(oddelovac)
-print(oddelovac)
-
-#pomocne premenne
-pocet_slov = {}
-prve_velke = 0
-prve_male = 0
-vsetky_velke = 0
-vsetky_male = 0
-cisel = 0
-freq_dlzok_slov = {}
-tokenized_text = TEXTS[vyber_textu - 1].strip('.,!?;''').split()
-sucet = 0
-
-for slovo in tokenized_text:
-    pocet_slov[slovo.lower()] = pocet_slov.get(slovo.lower(), 0) + 1
-
-    if slovo[0].isupper() == True:
-        prve_velke += 1
-    elif slovo[0].islower() == True:
-        prve_male += 1
-    else:
-        cisel += 1
-
-    if slovo.isupper() == True:
-        vsetky_velke += 1
-    elif slovo.islower() == True:
-        vsetky_male += 1
-
-    if slovo.isdigit() == True:
-        sucet += int(slovo)
-
-    freq_dlzok_slov[len(slovo)] = freq_dlzok_slov.get(len(slovo), 0) + 1
-
-print(f'{medzery}Pocet vsetkych slov v texte {vyber_textu} je: {len(tokenized_text)}')
-print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju velkym pismenom: {prve_velke}')
-print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju malym pismenom: {prve_male}')
-print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba velkymi pismenami: {vsetky_velke}')
-print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba malymi pismenami: {vsetky_male}')
-print(f'{medzery}Pocet cisel v texte {vyber_textu} je: {cisel}')
-print(oddelovac)
-
-for dlzka_slova in range(min(freq_dlzok_slov), max(freq_dlzok_slov) + 1):
-    kolko = freq_dlzok_slov.get(dlzka_slova, 0)
-    if kolko > 0:
-        print((medzery) * 2, dlzka_slova, '*' * kolko, kolko)
-
-print(oddelovac)
-
-print(f'{medzery}Ked zratame vsetky cisla v texte {vyber_textu}, dostaneme cislo {sucet}')
-print(oddelovac)
