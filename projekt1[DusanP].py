@@ -33,38 +33,32 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
 
-ramik = ' ' * 3 + ' = ' * 17
-oddelovac = ' ' * 3 + ' . ' * 17
-medzery = ' ' * 4
-
-print(ramik)
-print('|| Vitaj, mily pouzivatel! A teraz sa prihlas, prosim: ||')
-print(ramik)
-
-print()
-
-uzivatel = input(medzery + 'Tvoje prihlasovacie meno bude: ')
-heslo = input(medzery + 'Zadaj svoje heslo: ')
-
+RAMIK = ' ' * 3 + ' = ' * 17
+ODDELOVAC = ' ' * 3 + ' . ' * 17
+MEDZERY = ' ' * 4
 users_database = {'bob':  123, 'ann': 'pass123', 'mike': 'password123', 'liz': 'pass123'}
+
+print(RAMIK)
+print('|| Vitaj, mily pouzivatel! A teraz sa prihlas, prosim: ||')
+print(f'{RAMIK}\n')
+
+uzivatel = input(MEDZERY + 'Tvoje prihlasovacie meno bude: ')
+heslo = input(MEDZERY + 'Zadaj svoje heslo: ')
 
 print()
 
 if uzivatel in users_database.keys():
     if str(users_database.get(uzivatel)) == heslo:
-        print(medzery + 'Prihlasenie prebehlo uspesne.')
+        print(MEDZERY + 'Prihlasenie prebehlo uspesne.\n')
 
-        print()
-        print(oddelovac)
-        print()
+        print(f'{ODDELOVAC}\n')
 
-        print(f'{medzery}Mozeme analyzovat 1 z 3 textov.')
-        vyber_textu = int(input(f'{medzery}Vyber si jeden z nich (zadaj cislo 1-3): '))
-        print()
+        print(f'{MEDZERY}Mozeme analyzovat 1 z 3 textov.')
+        vyber_textu = int(input(f'{MEDZERY}Vyber si jeden z nich (zadaj cislo 1-3): \n'))
         while 1 > vyber_textu or vyber_textu > 3:
-            vyber_textu = int(input(f'{medzery}Znova. Vyber si text (zadaj cislo 1-3): '))
-            print(oddelovac)
-        print(oddelovac)
+            vyber_textu = int(input(f'{MEDZERY}Znova. Vyber si text (zadaj cislo 1-3): '))
+            print(ODDELOVAC)
+        print(ODDELOVAC)
 
         # pomocne premenne
         pocet_slov = {}
@@ -74,49 +68,54 @@ if uzivatel in users_database.keys():
         vsetky_male = 0
         cisel = 0
         freq_dlzok_slov = {}
-        tokenized_text = TEXTS[vyber_textu - 1].strip('.,!?;''').split()
+
+        split_text = TEXTS[vyber_textu - 1].split()
+        stripped_words = []
+        for word in split_text:
+            stripped_words.append(word.strip("'.,!?;"))
+
         sucet = 0
 
-        for slovo in tokenized_text:
+        for slovo in stripped_words:
             pocet_slov[slovo.lower()] = pocet_slov.get(slovo.lower(), 0) + 1
 
-            if slovo[0].isupper() == True:
+            if slovo[0].isupper():
                 prve_velke += 1
-            elif slovo[0].islower() == True:
+            elif slovo[0].islower():
                 prve_male += 1
-            else:
+            elif slovo.isdigit():#else:
                 cisel += 1
+                sucet += int(slovo) #pridane
 
-            if slovo.isupper() == True:
+            if slovo.isupper():
                 vsetky_velke += 1
-            elif slovo.islower() == True:
+            elif slovo.islower():
                 vsetky_male += 1
 
-            if slovo.isdigit() == True:
-                sucet += int(slovo)
+            #if slovo.isdigit():
+            #    sucet += int(slovo)
 
             freq_dlzok_slov[len(slovo)] = freq_dlzok_slov.get(len(slovo), 0) + 1
 
-        print(f'{medzery}Pocet vsetkych slov v texte {vyber_textu} je: {len(tokenized_text)}')
-        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju velkym pismenom: {prve_velke}')
-        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore zacinaju malym pismenom: {prve_male}')
-        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba velkymi pismenami: {vsetky_velke}')
-        print(f'{medzery}Pocet slov v texte {vyber_textu}, ktore su napisane iba malymi pismenami: {vsetky_male}')
-        print(f'{medzery}Pocet cisel v texte {vyber_textu} je: {cisel}')
-        print(oddelovac)
+        print(f'{MEDZERY}Pocet vsetkych slov v texte {vyber_textu} je: {len(stripped_words)}')
+        print(f'{MEDZERY}Pocet slov v texte {vyber_textu}, ktore zacinaju velkym pismenom: {prve_velke}')
+        print(f'{MEDZERY}Pocet slov v texte {vyber_textu}, ktore zacinaju malym pismenom: {prve_male}')
+        print(f'{MEDZERY}Pocet slov v texte {vyber_textu}, ktore su napisane iba velkymi pismenami: {vsetky_velke}')
+        print(f'{MEDZERY}Pocet slov v texte {vyber_textu}, ktore su napisane iba malymi pismenami: {vsetky_male}')
+        print(f'{MEDZERY}Pocet cisel v texte {vyber_textu} je: {cisel}')
+        print(ODDELOVAC)
 
-        for dlzka_slova in range(min(freq_dlzok_slov), max(freq_dlzok_slov) + 1):
+        for dlzka_slova in sorted(freq_dlzok_slov.keys()):
             kolko = freq_dlzok_slov.get(dlzka_slova, 0)
             if kolko > 0:
-                print((medzery) * 2, dlzka_slova, '*' * kolko, kolko)
+                print((MEDZERY) * 2, dlzka_slova, '*' * kolko, kolko)
 
-        print(oddelovac)
+        print(ODDELOVAC)
 
-        print(f'{medzery}Ked zratame vsetky cisla v texte {vyber_textu}, dostaneme cislo {sucet}')
-        print(oddelovac)
+        print(f'{MEDZERY}Ked zratame vsetky cisla v texte {vyber_textu}, dostaneme cislo {sucet}')
+        print(ODDELOVAC)
 
     else:
-        print(medzery + 'Zadali ste nespravne heslo!')
+        print(MEDZERY + 'Zadali ste nespravne heslo!')
 else:
-    print(medzery + 'Neexistujuci pouzivatel!')
-
+    print(MEDZERY + 'Neexistujuci pouzivatel!')
